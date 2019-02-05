@@ -20,7 +20,7 @@ exports.handler = function(event, callback){
   }
 
   // Todo: Implement
-  respond(204, "Not implemented");
+  respond(501, "Not implemented");
 
 
 }

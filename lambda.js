@@ -19,8 +19,26 @@ exports.handler = function(event, callback){
     });
   }
 
-  // Todo: Implement
-  respond(501, "Not implemented");
+  let action = '';
+  if(event.event == 'Impression') action = 'impressions';
+  else if(event.event == 'DetailView') action = 'views';
+  else if(event.event == 'Purchase') action = 'purchases';
+  else reject('Action not implemented.');
 
+  let sqlValues = '';
+  event.products.forEach((v) => {
+    sqlValues += `('${v.name}','${v.brand}',1),`;
+  })
+  //Remove comma from the end
+  sqlValues = sqlValues.slice(0, -1)
+
+  const sql = `INSERT INTO product_events (name, brand, ${action}) 
+    VALUES ${sqlValues} 
+    ON DUPLICATE KEY UPDATE ${action} = product_events.${action} + 1;`
+
+  connection.query(sql, function(err, rows){
+    if(err) return response(404, "Event not found");
+    else return respond(200, "Done");
+  });
 
 }

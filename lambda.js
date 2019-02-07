@@ -23,7 +23,7 @@ exports.handler = function(event, callback){
   if(event.event == 'Impression') action = 'impressions';
   else if(event.event == 'DetailView') action = 'views';
   else if(event.event == 'Purchase') action = 'purchases';
-  else reject('Action not implemented.');
+  else respond(404, 'Action not implemented.');
 
   let sqlValues = '';
   event.products.forEach((v) => {

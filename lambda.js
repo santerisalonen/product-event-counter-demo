@@ -37,7 +37,7 @@ exports.handler = function(event, callback){
     ON DUPLICATE KEY UPDATE ${action} = product_events.${action} + 1;`
 
   connection.query(sql, function(err, rows){
-    if(err) return response(404, "Event not found");
+    if(err) return respond(404, "Event not found");
     else return respond(200, "Done");
   });
 
